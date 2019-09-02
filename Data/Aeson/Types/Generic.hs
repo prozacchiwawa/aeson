@@ -8,6 +8,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 #include "overlapping-compat.h"
 
@@ -41,6 +42,10 @@ import Prelude.Compat
 
 import GHC.Generics
 
+#ifdef ETA_VERSION
+#define OVERLAPPING_
+#endif
+
 --------------------------------------------------------------------------------
 
 class IsRecord (f :: * -> *) isRecord | f -> isRecord
@@ -51,7 +56,11 @@ class IsRecord (f :: * -> *) isRecord | f -> isRecord
 instance (IsRecord f isRecord) => IsRecord (f :*: g) isRecord
   where isUnary = const False
 #if MIN_VERSION_base(4,9,0)
+#ifdef ETA_VERSION
+instance OVERLAPPING_ IsRecord (M1 S NoSelector f) False
+#else
 instance OVERLAPPING_ IsRecord (M1 S ('MetaSel 'Nothing u ss ds) f) False
+#endif
 #else
 instance OVERLAPPING_ IsRecord (M1 S NoSelector f) False
 #endif

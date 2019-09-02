@@ -82,6 +82,9 @@ import Control.Arrow (first)
 import Control.DeepSeq (NFData(..))
 import Control.Monad (MonadPlus(..), ap)
 import Data.Char (isLower, isUpper, toLower, isAlpha, isAlphaNum)
+#ifdef HAS_TRAMPOLINE
+import qualified Data.Function as F
+#endif
 import Data.Data (Data)
 import Data.Foldable (foldl')
 import Data.HashMap.Strict (HashMap)
@@ -104,6 +107,13 @@ import qualified Language.Haskell.TH.Syntax as TH
 
 #if !MIN_VERSION_unordered_containers(0,2,6)
 import Data.List (sort)
+#endif
+
+trampoline :: a -> a
+#ifdef HAS_TRAMPOLINE
+trampoline = F.trampoline
+#else
+trampoline = id
 #endif
 
 -- | Elements of a JSON path used to describe the location of an
@@ -423,23 +433,23 @@ emptyObject = Object H.empty
 
 -- | Run a 'Parser'.
 parse :: (a -> Parser b) -> a -> Result b
-parse m v = runParser (m v) [] (const Error) Success
+parse m v = trampoline $ runParser (m v) [] (const Error) Success
 {-# INLINE parse #-}
 
 -- | Run a 'Parser'.
 iparse :: (a -> Parser b) -> a -> IResult b
-iparse m v = runParser (m v) [] IError ISuccess
+iparse m v = trampoline $ runParser (m v) [] IError ISuccess
 {-# INLINE iparse #-}
 
 -- | Run a 'Parser' with a 'Maybe' result type.
 parseMaybe :: (a -> Parser b) -> a -> Maybe b
-parseMaybe m v = runParser (m v) [] (\_ _ -> Nothing) Just
+parseMaybe m v = trampoline $ runParser (m v) [] (\_ _ -> Nothing) Just
 {-# INLINE parseMaybe #-}
 
 -- | Run a 'Parser' with an 'Either' result type.  If the parse fails,
 -- the 'Left' payload will contain an error message.
 parseEither :: (a -> Parser b) -> a -> Either String b
-parseEither m v = runParser (m v) [] onError Right
+parseEither m v = trampoline $ runParser (m v) [] onError Right
   where onError path msg = Left (formatError path msg)
 {-# INLINE parseEither #-}
 
