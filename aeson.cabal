@@ -174,83 +174,83 @@ library
   if impl(eta >= 0.0.9.7)
      cpp-options: -DHAS_TRAMPOLINE
 
-test-suite tests
-  default-language: Haskell2010
-  type: exitcode-stdio-1.0
-  hs-source-dirs: tests ffi pure
-  main-is: Tests.hs
-  c-sources: cbits/unescape_string.c
-  ghc-options: -Wall -threaded -rtsopts
+-- test-suite tests
+--   default-language: Haskell2010
+--   type: exitcode-stdio-1.0
+--   hs-source-dirs: tests ffi pure
+--   main-is: Tests.hs
+--   c-sources: cbits/unescape_string.c
+--   ghc-options: -Wall -threaded -rtsopts
 
-  other-modules:
-    Data.Aeson.Parser.UnescapeFFI
-    Data.Aeson.Parser.UnescapePure
-    DataFamilies.Properties
-    DataFamilies.Instances
-    DataFamilies.Encoders
-    DataFamilies.Types
-    Encoders
-    ErrorMessages
-    Functions
-    Instances
-    Options
-    Properties
-    SerializationFormatSpec
-    Types
-    UnitTests
-    UnitTests.NullaryConstructors
+--   other-modules:
+--     Data.Aeson.Parser.UnescapeFFI
+--     Data.Aeson.Parser.UnescapePure
+--     DataFamilies.Properties
+--     DataFamilies.Instances
+--     DataFamilies.Encoders
+--     DataFamilies.Types
+--     Encoders
+--     ErrorMessages
+--     Functions
+--     Instances
+--     Options
+--     Properties
+--     SerializationFormatSpec
+--     Types
+--     UnitTests
+--     UnitTests.NullaryConstructors
 
-  build-depends:
-    HUnit,
-    QuickCheck >= 2.10.0.1 && < 2.11,
-    aeson,
-    integer-logarithms >= 1 && <1.1,
-    attoparsec,
-    base,
-    base-compat,
-    base-orphans >= 0.5.3 && <0.7,
-    base16-bytestring,
-    containers,
-    directory,
-    dlist,
-    filepath,
-    generic-deriving >= 1.10 && < 1.12,
-    ghc-prim >= 0.2,
-    hashable >= 1.2.4.0,
-    scientific,
-    tagged,
-    template-haskell,
-    test-framework,
-    test-framework-hunit,
-    test-framework-quickcheck2,
-    text,
-    time,
-    time-locale-compat,
-    unordered-containers,
-    uuid-types,
-    vector,
-    quickcheck-instances >= 0.3.16
+--   build-depends:
+--     HUnit,
+--     QuickCheck >= 2.10.0.1 && < 2.11,
+--     aeson,
+--     integer-logarithms >= 1 && <1.1,
+--     attoparsec,
+--     base,
+--     base-compat,
+--     base-orphans >= 0.5.3 && <0.7,
+--     base16-bytestring,
+--     containers,
+--     directory,
+--     dlist,
+--     filepath,
+--     generic-deriving >= 1.10 && < 1.12,
+--     ghc-prim >= 0.2,
+--     hashable >= 1.2.4.0,
+--     scientific,
+--     tagged,
+--     template-haskell,
+--     test-framework,
+--     test-framework-hunit,
+--     test-framework-quickcheck2,
+--     text,
+--     time,
+--     time-locale-compat,
+--     unordered-containers,
+--     uuid-types,
+--     vector,
+--     quickcheck-instances >= 0.3.16
 
-  if flag(bytestring-builder)
-    build-depends: bytestring >= 0.9 && < 0.10.4,
-                   bytestring-builder >= 0.10.4 && < 1
-  else
-    build-depends: bytestring >= 0.10.4
+--   if flag(bytestring-builder)
+--     build-depends: bytestring >= 0.9 && < 0.10.4,
+--                    bytestring-builder >= 0.10.4 && < 1
+--   else
+--     build-depends: bytestring >= 0.10.4
 
-  if !impl(ghc >= 8.0)
-    build-depends:
-      semigroups >= 0.18.2 && < 0.19,
-      transformers >= 0.2.2.0,
-      transformers-compat >= 0.3
+--   if !impl(ghc >= 8.0)
+--     build-depends:
+--       semigroups >= 0.18.2 && < 0.19,
+--       transformers >= 0.2.2.0,
+--       transformers-compat >= 0.3
 
-  if !impl(ghc >= 7.10)
-    build-depends: nats >=1 && <1.2
+--   if !impl(ghc >= 7.10)
+--     build-depends: nats >=1 && <1.2
 
-  if impl(ghc >= 7.8)
-    build-depends: hashable-time >= 0.2 && <0.3
+--   if impl(ghc >= 7.8)
+--     build-depends: hashable-time >= 0.2 && <0.3
 
-  if flag(fast)
-    ghc-options: -fno-enable-rewrite-rules
+--   if flag(fast)
+--     ghc-options: -fno-enable-rewrite-rules
 
 source-repository head
   type:     git
